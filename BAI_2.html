@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trắc nghiệm Chu phẫu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1d2a33; --muted:#5f6b73; --line:#e3ded3;
+  --accent:#0f6e6e; --accent-soft:#e2f1ef;
+  --ok:#1f7a3f; --ok-bg:#e6f4ea; --bad:#b3261e; --bad-bg:#fbe9e7;
+  --b1:#5b6b7a; --b2:#2f6fa3; --b3:#0f7d6b; --b4:#b26a00; --b5:#a63d6b; --b6:#6a4bb3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14191d; --card:#1d242a; --ink:#e6ebee; --muted:#9aa6ae; --line:#2e383f;
+    --accent:#4fc1b4; --accent-soft:#1d3a38;
+    --ok:#6fd18f; --ok-bg:#183424; --bad:#ff8a80; --bad-bg:#3a1f1d;
+    --b1:#9fb0bf; --b2:#7fb5e3; --b3:#5fd0bb; --b4:#f0b35a; --b5:#e889b3; --b6:#b49cf0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14191d; --card:#1d242a; --ink:#e6ebee; --muted:#9aa6ae; --line:#2e383f;
+  --accent:#4fc1b4; --accent-soft:#1d3a38;
+  --ok:#6fd18f; --ok-bg:#183424; --bad:#ff8a80; --bad-bg:#3a1f1d;
+  --b1:#9fb0bf; --b2:#7fb5e3; --b3:#5fd0bb; --b4:#f0b35a; --b5:#e889b3; --b6:#b49cf0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;font-size:16px}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+header h1{font-size:1.6rem;margin:0 0 4px;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.top-actions{float:right}
+.btn{font:inherit;font-size:.9rem;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:18px}
+.panel h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.85rem;border:1px solid var(--line);background:transparent;color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip .dot{width:9px;height:9px;border-radius:50%}
+.chip .n{color:var(--muted);font-size:.78rem}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+select{font:inherit;font-size:.9rem;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);max-width:100%}
+label.tog{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;color:var(--muted);cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-size:1.35rem}
+.stat span{font-size:.8rem;color:var(--muted)}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;margin-top:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px;font-size:.78rem}
+.tag{padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.bl{color:var(--card);border:none;font-weight:600}
+.num{font-weight:700;color:var(--muted);margin-right:2px}
+.qt{font-weight:600;margin:0 0 10px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;text-align:left;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;display:flex;gap:10px}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt .k{font-weight:700;color:var(--muted);min-width:1.2em}
+.opt[disabled]{cursor:default}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok)}
+.opt.ok .k{color:var(--ok)}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad)}
+.opt.bad .k{color:var(--bad)}
+.exp{margin-top:10px;padding:10px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;font-size:.92rem}
+.exp strong.okt{color:var(--ok)} .exp strong.badt{color:var(--bad)}
+.summary table{width:100%;border-collapse:collapse;font-size:.9rem}
+.summary th,.summary td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left}
+.summary td.r,.summary th.r{text-align:right}
+.legend{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.legend b{color:var(--ink)}
+.empty{color:var(--muted);text-align:center;padding:30px}
+footer{margin-top:28px;font-size:.8rem;color:var(--muted)}
+@media (max-width:560px){.stats{grid-template-columns:repeat(3,1fr)} header h1{font-size:1.3rem}.top-actions{float:none;margin-bottom:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="top-actions"><button class="btn" id="theme">◐ Giao diện</button></div>
+  <h1>Trắc nghiệm: Chuẩn bị trước mổ – Chăm sóc sau mổ</h1>
+  <p>Ôn thi cuối kỳ · Chỉ nội dung có trong bài giảng [BG] · Phân bậc theo thang Bloom</p>
+</header>
+
+<section class="panel">
+  <h2>Bậc Bloom</h2>
+  <div class="chips" id="bloomChips"></div>
+  <p class="legend" id="bloomLegend"></p>
+  <div class="row">
+    <select id="partSel" aria-label="Chọn phần"></select>
+    <label class="tog"><input type="checkbox" id="shuffleQ"> Xáo thứ tự câu</label>
+    <label class="tog"><input type="checkbox" id="reveal"> Hiện đáp án (chế độ đọc)</label>
+  </div>
+  <div class="row">
+    <button class="btn primary" id="restart">Làm lại từ đầu</button>
+    <button class="btn" id="wrongOnly">Chỉ làm lại câu sai</button>
+    <button class="btn" id="showSummary">Xem kết quả theo bậc</button>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b id="sDone">0/0</b><span>Đã làm</span></div>
+  <div class="stat"><b id="sRight">0</b><span>Đúng</span></div>
+  <div class="stat"><b id="sPct">–</b><span>Tỷ lệ đúng</span></div>
+</div>
+<div class="bar"><i id="prog"></i></div>
+
+<section class="panel summary" id="summary" hidden>
+  <h2>Kết quả theo bậc Bloom</h2>
+  <table><thead><tr><th>Bậc</th><th class="r">Số câu</th><th class="r">Đã làm</th><th class="r">Đúng</th><th class="r">Tỷ lệ</th></tr></thead><tbody id="sumBody"></tbody></table>
+  <p class="legend">Bậc nào dưới 70% là phần nên ôn lại trước. Bấm "Chỉ làm lại câu sai" để luyện riêng các câu đó.</p>
+</section>
+
+<main id="list"></main>
+<footer>Đáp án theo nội dung bài giảng. Câu nào bài giảng khác khuyến cáo hiện hành có ghi chú "Lưu ý" trong phần giải thích.</footer>
+</div>
+
+<script>
+// b: bậc Bloom (1 Nhớ, 2 Hiểu, 3 Vận dụng, 4 Phân tích, 5 Đánh giá, 6 Sáng tạo)
+// p: phần (1–6), s: mục trong mục lục, a: chỉ số đáp án đúng (trước khi xáo)
+const QUESTIONS = [
+// ================= BẬC 1 – NHỚ =================
+{b:1,p:1,s:"1. Mục đích tiền phẫu",q:"Nội dung nào KHÔNG thuộc 4 mục đích cốt lõi của chuẩn bị tiền phẫu?",o:["Rút ngắn thời gian cuộc mổ","Đánh giá toàn trạng","Xác định nguy cơ","Giáo dục bệnh nhân"],a:0,e:"4 mục đích: đánh giá toàn trạng, xác định nguy cơ, giáo dục BN, tối ưu hóa thể trạng và tâm lý."},
+{b:1,p:1,s:"2.2. Huyết động khi gây mê",q:"Thuốc mê toàn thân ức chế trực tiếp cơ tim, làm cung lượng tim giảm khoảng:",o:["20 – 30%","5 – 10%","40 – 50%","60 – 70%"],a:0,e:"Mê toàn thân làm cung lượng tim giảm 20–30%."},
+{b:1,p:1,s:"2.2. Huyết động khi gây mê",q:"Thao tác đặt nội khí quản gây phản xạ làm huyết áp tăng khoảng:",o:["10 – 15 mmHg","1 – 5 mmHg","30 – 40 mmHg","50 – 60 mmHg"],a:0,e:"Đặt NKQ làm HA tăng phản xạ 10–15 mmHg."},
+{b:1,p:1,s:"2.4. Cơ học hô hấp sau mổ",q:"Sau mổ ngực hoặc bụng trên, do đơ cơ hoành, thể tích sống (VC) và dung tích cặn chức năng (FRC) giảm lần lượt:",o:["50% và 30%","30% và 50%","20% và 10%","70% và 50%"],a:0,e:"VC giảm 50%, FRC giảm 30% → xẹp phổi, viêm phổi hậu phẫu."},
+{b:1,p:2,s:"5.1. Cận lâm sàng",q:"Theo bài giảng, điện tâm đồ trước mổ là bắt buộc với bệnh nhân:",o:["Trên 40 tuổi","Trên 20 tuổi","Trên 60 tuổi","Chỉ khi có triệu chứng tim mạch"],a:0,e:"ECG bắt buộc khi BN > 40 tuổi để tầm soát bệnh tim ẩn."},
+{b:1,p:2,s:"5.1. Cận lâm sàng",q:"Xét nghiệm nào KHÔNG nằm trong panel tiền phẫu thường quy của bài giảng?",o:["Siêu âm tim Dobutamine","X-quang ngực thẳng","Tổng phân tích nước tiểu","Nhóm máu"],a:0,e:"Siêu âm tim Dobutamine là xét nghiệm chuyên sâu, chỉ làm khi nguy cơ tim mạch trung bình – cao."},
+{b:1,p:2,s:"7.2. Ngưỡng FEV1",q:"Ngưỡng FEV1 được xem là chống chỉ định mổ chương trình:",o:["< 0,8 lít","< 1,5 lít","< 2,0 lít","< 1,2 lít"],a:0,e:"FEV1 < 1 L: nguy cơ rất cao; < 0,8 L: chống chỉ định (nguy cơ phụ thuộc máy thở sau mổ)."},
+{b:1,p:2,s:"7.2. Khí máu động mạch",q:"Trên khí máu động mạch, ngưỡng PaCO2 cho thấy nguy cơ suy hô hấp hậu phẫu tăng là:",o:["> 45 mmHg","> 35 mmHg","< 30 mmHg","> 60 mmHg"],a:0,e:"PaCO2 > 45 mmHg phản ánh giảm thông khí phế nang."},
+{b:1,p:2,s:"8.1. Child-Pugh",q:"Tỷ lệ tử vong phẫu thuật vùng bụng ở BN xơ gan Child-Pugh B và C lần lượt khoảng:",o:["30% và > 80%","10% và 30%","50% và 60%","5% và 20%"],a:0,e:"Child A < 10%, B ≈ 30%, C > 80% (chống chỉ định mổ chương trình)."},
+{b:1,p:2,s:"9.2. Thận",q:"Cuộc mổ làm lưu lượng máu đến thận giảm khoảng:",o:["50%","10%","25%","80%"],a:0,e:"Giảm 50% lưu lượng máu thận → dễ suy thận cấp trên nền mạn."},
+{b:1,p:2,s:"10. Đột quỵ",q:"Mức hẹp động mạch cảnh trên Doppler cần can thiệp (lột nội mạc) trước cuộc mổ chính là:",o:["> 70%","> 30%","> 50%","> 90%"],a:0,e:"Hẹp > 70% → hoãn mổ chính, lột nội mạc ĐM cảnh trước."},
+{b:1,p:3,s:"16.1. Kháng đông",q:"Mục tiêu INR ở bệnh nhân mang van tim nhân tạo dùng warfarin:",o:["2,5 – 3,5","1,5 – 2,0","2,0 – 3,0","3,5 – 4,5"],a:0,e:"INR chung 2–3; van tim nhân tạo 2,5–3,5."},
+{b:1,p:3,s:"16.1. Kháng đông",q:"Khi điều trị bằng heparin thường (UFH), mục tiêu aPTT là:",o:["1,5 – 2,5 lần bình thường","1,0 – 1,2 lần bình thường","3 – 4 lần bình thường","Không cần theo dõi aPTT"],a:0,e:"UFH theo dõi aPTT 1,5–2,5 lần; LMWH theo dõi anti-Xa."},
+{b:1,p:3,s:"16.2. Bắc cầu kháng đông",q:"Warfarin cần ngưng bao lâu trước mổ chương trình?",o:["4 – 5 ngày","1 ngày","2 tuần","Không cần ngưng"],a:0,e:"Ngưng warfarin 4–5 ngày, theo dõi INR giảm dần."},
+{b:1,p:3,s:"16.3. Kháng tiểu cầu",q:"Aspirin / clopidogrel cần ngưng trước mổ:",o:["5 – 7 ngày (≈ 1 tuần)","1 – 2 ngày","4 – 6 tuần","Không cần ngưng"],a:0,e:"Ngưng khoảng 1 tuần để chức năng tiểu cầu hồi phục."},
+{b:1,p:3,s:"19.5. Estrogen",q:"Thuốc ngừa thai dạng uống / estrogen nên ngưng trước mổ và dùng lại sau mổ theo mốc:",o:["Ngưng 4 – 6 tuần, dùng lại sau 2 tuần","Ngưng 1 ngày, dùng lại ngay","Ngưng 1 tuần, dùng lại sau 2 ngày","Không cần ngưng"],a:0,e:"Ngưng 4–6 tuần để giảm nguy cơ DVT; dùng lại sau mổ 2 tuần khi BN đã đi lại."},
+{b:1,p:3,s:"18.1. Corticoid liều stress",q:"Liều hydrocortisone tĩnh mạch cho BN dùng corticoid kéo dài khi trải qua PHẪU THUẬT LỚN:",o:["100 mg × 3 lần/ngày","25 mg × 1 lần","10 mg × 2 lần/ngày","500 mg × 1 lần"],a:0,e:"Mổ nhỏ: 25–100 mg; mổ lớn: 100 mg × 3 lần/ngày, sau đó giảm nhanh 50%/ngày."},
+{b:1,p:3,s:"18.2. Tuyến giáp",q:"BN cường giáp mổ chương trình nên dùng dung dịch iod trước mổ trong bao lâu?",o:["10 ngày","1 ngày","1 tháng","3 tháng"],a:0,e:"Iod 10 ngày trước mổ giúp giảm tưới máu, giảm chảy máu vùng mổ."},
+{b:1,p:3,s:"19.1. Thuốc lá",q:"Thời gian ngưng thuốc lá tối thiểu trước mổ theo bài giảng:",o:["8 tuần","24 giờ","1 tuần","2 tuần"],a:0,e:"Tối thiểu 8 tuần (lý tưởng trên 8 tuần; 6 tháng nếu nguy cơ bít tắc đờm rất cao)."},
+{b:1,p:3,s:"22.1. Hb tiền phẫu",q:"Mức Hb/Hct lý tưởng trước mổ lớn hoặc ở BN bệnh tim, phổi:",o:["Hb > 10 g/dL, Hct > 30%","Hb > 7 g/dL, Hct > 20%","Hb > 13 g/dL, Hct > 40%","Hb > 5 g/dL, Hct > 15%"],a:0,e:"Lý tưởng Hb > 10 g/dL (Hct > 30%); mức chấp nhận > 7 g/dL nếu sinh hiệu ổn định."},
+{b:1,p:3,s:"22.2. Dinh dưỡng",q:"BN suy dinh dưỡng nặng cần nuôi ăn tĩnh mạch hỗ trợ trước mổ trong:",o:["7 – 9 ngày","1 – 2 ngày","3 – 4 tuần","2 – 3 tháng"],a:0,e:"Hoãn mổ, TPN 7–9 ngày để cải thiện tổng hợp collagen và miễn dịch."},
+{b:1,p:4,s:"24.1. Nhịn ăn",q:"Mốc nhịn thức ăn đặc và dịch trong trước mổ lần lượt là:",o:["6 giờ và 2 giờ","12 giờ và 6 giờ","2 giờ và 30 phút","8 giờ và 8 giờ"],a:0,e:"Thức ăn đặc 6 giờ, dịch trong (nước lọc, nước táo) 2 giờ, để phòng hội chứng Mendelson."},
+{b:1,p:4,s:"24.5. Sáng ngày mổ",q:"Bệnh nhân được chuyển vào phòng tiền mê trước giờ mổ:",o:["1 giờ","10 phút","4 giờ","Đêm hôm trước"],a:0,e:"Chuyển BN vào phòng tiền mê đúng 1 giờ trước mổ (hoặc khi phòng mổ gọi)."},
+{b:1,p:4,s:"23.4. An thần",q:"Thuốc an thần được dùng đêm trước mổ cho BN lo lắng theo bài giảng:",o:["Diazepam 10 mg uống","Morphine 10 mg tiêm bắp","Haloperidol 5 mg tiêm","Propofol truyền tĩnh mạch"],a:0,e:"Diazepam 10 mg uống đêm trước mổ để giảm lo âu, ổn định huyết động sáng ngày mổ."},
+{b:1,p:5,s:"30.1. Dịch truyền",q:"Nhu cầu dịch cơ bản của người lớn sau mổ (chưa ăn uống được, không biến chứng):",o:["≈ 1500 mL/24 giờ (25 mL/kg/24 giờ)","≈ 500 mL/24 giờ","≈ 4000 mL/24 giờ","≈ 100 mL/kg/24 giờ"],a:0,e:"Trung bình 1500 mL/24 giờ hoặc 25 mL/kg/24 giờ."},
+{b:1,p:5,s:"31.1. Tư thế",q:"Tư thế Fowler sau mổ ngực/bụng là nâng đầu giường:",o:["45 – 60°","10 – 15°","90°","Nằm đầu thấp"],a:0,e:"Fowler 45–60°, thích hợp phẫu thuật lồng ngực và bụng."},
+{b:1,p:5,s:"32.7. Acetaminophen",q:"Liều acetaminophen tối đa mỗi ngày:",o:["4 g","1 g","8 g","10 g"],a:0,e:"Tuyệt đối không quá 4 g/ngày; liều 10–15 g có thể gây hoại tử gan cấp."},
+{b:1,p:5,s:"32.5. Meperidine",q:"Giới hạn dùng meperidine theo bài giảng:",o:["Tối đa 600 mg/ngày, không quá 48 giờ","Tối đa 100 mg/ngày, dùng 2 tuần","Không giới hạn liều","Tối đa 4 g/ngày"],a:0,e:"50–150 mg mỗi 2–3 giờ, tối đa 600 mg/ngày, không kéo dài quá 48 giờ."},
+{b:1,p:5,s:"28.4. Rút NKQ",q:"Một tiêu chuẩn rút ống nội khí quản tại ICU là tần số thở tự nhiên:",o:["12 – 18 lần/phút","6 – 8 lần/phút","25 – 30 lần/phút","> 35 lần/phút"],a:0,e:"Tự thở êm, nhịp thở 12–18 l/p, SpO2 > 95%, không thiếu oxy lâm sàng."},
+{b:1,p:5,s:"32.4. Opioid",q:"Trường hợp nào KHÔNG thuộc 3 chống chỉ định tuyệt đối của opioid?",o:["Tăng huyết áp đã kiểm soát","Chấn thương sọ não","Đang suy hô hấp","Đau bụng cấp chưa có chẩn đoán"],a:0,e:"3 CCĐ tuyệt đối: chấn thương sọ não, suy hô hấp, hội chứng bụng cấp chưa chẩn đoán."},
+
+// ================= BẬC 2 – HIỂU =================
+{b:2,p:4,s:"24.4. Vệ sinh vùng mổ",q:"Vì sao vùng mổ phải CẮT lông mà không CẠO lông?",o:["Cạo gây trầy xước da, vi khuẩn dễ xâm nhập làm tăng nhiễm khuẩn vết mổ","Cạo lông tốn thời gian hơn","Cắt lông giúp dán băng chắc hơn","Cạo lông làm sai lệch chỉ số SpO2"],a:0,e:"Vết trầy do cạo là cửa ngõ cho vi khuẩn → tăng nguy cơ nhiễm khuẩn vết mổ."},
+{b:2,p:4,s:"24.4. Vệ sinh",q:"Mục đích của việc tẩy sơn móng tay/móng chân trước mổ:",o:["Tránh làm sai lệch chỉ số SpO2 trên monitor","Giảm nguy cơ dị ứng latex","Phòng ngừa hạ thân nhiệt","Giúp đặt đường truyền dễ hơn"],a:0,e:"Sơn móng cản trở đầu dò đo SpO2."},
+{b:2,p:3,s:"16.3. COX-2",q:"Vì sao thuốc ức chế chọn lọc COX-2 (celecoxib) không cần ngưng vào ngày mổ?",o:["Không ảnh hưởng đến kết tập tiểu cầu","Không chuyển hóa qua gan","Có tác dụng chống đông","Thời gian bán hủy rất ngắn"],a:0,e:"COX-2 chọn lọc không ức chế tiểu cầu nên không tăng nguy cơ chảy máu vết mổ."},
+{b:2,p:3,s:"21.3. Thận",q:"Vì sao tránh dùng Lactate Ringer ở bệnh nhân suy thận?",o:["Dung dịch có chứa kali, làm nặng thêm tăng kali máu","Gây hạ natri máu nặng","Gây độc trực tiếp ống thận","Làm tăng creatinine giả"],a:0,e:"Lactate Ringer chứa K+ → làm nặng tăng K máu; dùng NaCl 0,9% để đưa BN về đẳng tích."},
+{b:2,p:3,s:"21.4. Thận – cấp cứu",q:"Vì sao ở BN suy thận mạn, khi nghi nhồi máu cơ tim nên dùng Troponin T thay cho CK-MB?",o:["CK-MB thường tăng giả do tổn thương cơ, mất tính đặc hiệu","Troponin T rẻ hơn","CK-MB không đo được ở BN lọc máu","Troponin T không bị ảnh hưởng bởi thuốc mê"],a:0,e:"Ở suy thận, CK-MB có thể tăng mà không có tổn thương tim; Troponin T đặc hiệu hơn."},
+{b:2,p:3,s:"21.2. Gan",q:"Vì sao atracurium là thuốc giãn cơ an toàn cho BN suy gan?",o:["Thải trừ qua thoái biến Hofmann, không phụ thuộc gan hay thận","Có tác dụng bảo vệ tế bào gan","Tác dụng rất ngắn dưới 1 phút","Không cần dùng thuốc hóa giải"],a:0,e:"Atracurium bị thoái biến tự nhiên (Hofmann) nên không tích lũy khi suy gan/thận."},
+{b:2,p:3,s:"21.2. Gan",q:"Vì sao isoflurane được ưu tiên hơn halothane ở BN bệnh gan?",o:["Isoflurane làm tăng lưu lượng máu gan; halothane giảm máu gan và có thể gây suy gan","Isoflurane rẻ và dễ kiếm hơn","Halothane gây tăng kali máu","Isoflurane không cần đặt nội khí quản"],a:0,e:"Halothane/enflurane giảm máu động mạch gan; halothane có thể gây suy gan tối cấp."},
+{b:2,p:3,s:"15.3. Lợi tiểu",q:"Lý do chính phải ngưng thuốc lợi tiểu từ ngày trước mổ:",o:["Tránh giảm thể tích tuần hoàn và tụt huyết áp kịch phát khi dẫn mê","Tránh tương tác với kháng sinh dự phòng","Tránh tăng đường huyết","Tránh bí tiểu sau mổ"],a:0,e:"Lợi tiểu gây giảm thể tích → tụt HA khi dẫn mê; kèm hạ K, Mg."},
+{b:2,p:3,s:"15.1. Chẹn beta",q:"Cơ chế bảo vệ tim chu phẫu của thuốc chẹn beta:",o:["Khóa tác động của catecholamine phóng thích do stress phẫu thuật","Làm giãn mạch vành trực tiếp","Làm tăng co bóp cơ tim","Chống kết tập tiểu cầu"],a:0,e:"Chẹn beta khóa catecholamine, giữ nhịp 65–70 l/p, giảm 15% nguy cơ NMCT và tử vong."},
+{b:2,p:3,s:"18.1. Corticoid",q:"Vì sao BN dùng corticoid kéo dài không được dừng thuốc đột ngột trước mổ?",o:["Trục hạ đồi – tuyến yên – thượng thận bị ức chế, dễ suy thượng thận cấp khi gặp stress mổ","Gây tăng đường huyết dội ngược","Gây hội chứng cai giống opioid","Làm vết mổ chậm lành"],a:0,e:"Ức chế trục HPA → không đáp ứng được stress → suy thượng thận cấp; cần bù liều stress."},
+{b:2,p:3,s:"17.1. Thuốc hạ đường huyết",q:"Vì sao sulfonylurea (glibenclamide) đặc biệt nguy hiểm khi BN nhịn ăn chu phẫu?",o:["Tác dụng hạ đường huyết kéo dài, dễ gây hạ đường huyết kịch phát","Gây nhiễm toan lactic","Gây giữ nước, suy tim","Gây tăng kali máu"],a:0,e:"Sulfonylurea: hạ đường huyết kéo dài. Metformin: nhiễm toan lactic. TZD: giữ nước, suy tim."},
+{b:2,p:2,s:"11.1. Đường huyết chu phẫu",q:"Cơ chế chính khiến đường huyết dễ tăng mất kiểm soát trong chu phẫu:",o:["Stress mổ tăng cortisol, catecholamine; thuốc mê ức chế tiết insulin","Bệnh nhân nhịn ăn kéo dài","Dịch truyền NaCl 0,9% chứa đường","Thuốc giãn cơ kích thích tụy"],a:0,e:"Hormone đối kháng tăng + insulin giảm (tương đối ở týp 2, tuyệt đối ở týp 1)."},
+{b:2,p:1,s:"2.2. Thuốc mê tĩnh mạch",q:"Vì sao thuốc mê tĩnh mạch (fentanyl, sufentanil) đặc biệt nguy hiểm ở BN suy tim ứ huyết dù ít ức chế cơ tim?",o:["Gây giãn tĩnh mạch, giảm tiền tải, làm cung lượng tim giảm","Gây co mạch vành","Làm tăng hậu tải đột ngột","Gây rung thất trực tiếp"],a:0,e:"Giãn tĩnh mạch → tiền tải giảm → CO giảm; cần theo dõi HA và bù dịch kịp thời."},
+{b:2,p:4,s:"24.1. Nhịn ăn",q:"Mục đích chính của quy tắc nhịn ăn 6 giờ / nhịn dịch trong 2 giờ:",o:["Phòng hội chứng hít sặc Mendelson khi dẫn mê","Giảm đường huyết trước mổ","Làm sạch đại tràng","Giảm nguy cơ huyết khối"],a:0,e:"Dạ dày rỗng giúp tránh trào ngược, hít sặc dịch vị khi dẫn mê."},
+{b:2,p:3,s:"21.1. CPAP",q:"Vì sao cần thận trọng khi cho BN mổ bụng thở CPAP sau mổ?",o:["CPAP có thể gây chướng bụng, tăng áp lực ổ bụng","CPAP gây ức chế hô hấp","CPAP làm tăng nguy cơ DVT","CPAP gây hạ huyết áp kéo dài"],a:0,e:"Khí vào dạ dày – ruột gây chướng bụng, bất lợi cho vết mổ bụng."},
+{b:2,p:5,s:"32.4. Opioid",q:"Vì sao opioid chống chỉ định ở bệnh nhân chấn thương sọ não?",o:["Ức chế thần kinh, che lấp diễn tiến tri giác cần theo dõi","Gây tăng huyết áp nội sọ trực tiếp","Gây co giật ở mọi liều","Không có tác dụng giảm đau đầu"],a:0,e:"Opioid ức chế TKTW và hô hấp, làm mất dấu hiệu theo dõi tri giác."},
+{b:2,p:5,s:"32.5. Meperidine",q:"Vì sao meperidine chống chỉ định ở BN suy thận hoặc có tiền căn động kinh?",o:["Tích lũy normeperidine kích thích TKTW, gây co giật","Gây suy thận cấp trực tiếp","Gây co thắt đường mật nặng","Làm hạ đường huyết"],a:0,e:"Normeperidine độc thần kinh, tích lũy khi suy thận/gan → co giật."},
+{b:2,p:2,s:"3.2. Tương tác epinephrine",q:"Vì sao BN đang dùng lợi tiểu có nguy cơ loạn nhịp khi dùng epinephrine trong mổ?",o:["Lợi tiểu gây hạ K+ và Mg2+ máu","Lợi tiểu làm tăng catecholamine nội sinh","Lợi tiểu gây tăng canxi máu","Lợi tiểu ức chế men chuyển hóa epinephrine"],a:0,e:"Hạ K, hạ Mg làm cơ tim dễ kích thích → loạn nhịp dưới tác dụng epinephrine."},
+{b:2,p:2,s:"3.2. Tương tác epinephrine",q:"Phối hợp propranolol với epinephrine có thể gây:",o:["Tăng huyết áp kịch phát và chậm nhịp tim","Tụt huyết áp và nhịp nhanh","Hạ đường huyết nặng","Co thắt phế quản đơn thuần"],a:0,e:"Chẹn beta không chọn lọc để lại tác dụng co mạch alpha của epinephrine → tăng HA, phản xạ chậm nhịp."},
+{b:2,p:5,s:"32.1. Đau không kiểm soát",q:"Đau hậu phẫu không kiểm soát làm tăng nguy cơ huyết khối tĩnh mạch qua cơ chế:",o:["Co thắt mạch máu ngoại biên, ứ trệ dòng máu","Tăng tiểu cầu do tủy xương","Ức chế tổng hợp yếu tố đông máu","Gây nhiễm toan chuyển hóa"],a:0,e:"Kích thích giao cảm → co mạch ngoại biên, kèm bất động → DVT."},
+{b:2,p:2,s:"12.3. LMWH",q:"Hai ưu điểm của LMWH so với heparin thường trong dự phòng DVT:",o:["Tỷ lệ huyết khối thấp hơn và tỷ lệ chảy máu thấp hơn","Rẻ hơn và không cần tiêm","Có thể hóa giải hoàn toàn bằng vitamin K","Không thải qua thận và không gây giảm tiểu cầu"],a:0,e:"Huyết khối 10% so với 15,3%; chảy máu 0,9% so với 3,5%."},
+{b:2,p:1,s:"2.3. Mê + tê NMC",q:"Lợi ích cốt lõi của phối hợp mê toàn thân với tê ngoài màng cứng:",o:["Cắt xung động giao cảm, giảm nhu cầu giảm đau, rút ngắn thời gian nằm ICU","Tránh hoàn toàn đặt nội khí quản","Không cần theo dõi huyết áp","Thay thế được kháng sinh dự phòng"],a:0,e:"Đây là 'nguyên tắc vàng' kiểm soát đau đa mô thức và huyết động."},
+
+// ================= BẬC 3 – VẬN DỤNG =================
+{b:3,p:3,s:"17.2. Insulin TM",q:"BN đái tháo đường đang truyền insulin tĩnh mạch, đường huyết đo được 300 mg/dL. Tốc độ insulin theo công thức bài giảng:",o:["2 đơn vị/giờ","3 đơn vị/giờ","1 đơn vị/giờ","4,5 đơn vị/giờ"],a:0,e:"Insulin (U/giờ) = glucose / 150 = 300 / 150 = 2 U/giờ."},
+{b:3,p:3,s:"17.2. Insulin TM",q:"BN đang truyền insulin, đường huyết giảm còn 130 mg/dL. Xử trí đúng theo bài giảng:",o:["Truyền phối hợp Glucose 5%","Ngưng hẳn insulin và cho ăn","Tăng gấp đôi tốc độ insulin","Chuyển ngay sang sulfonylurea uống"],a:0,e:"Khi đường huyết < 150 mg/dL bắt đầu Glucose 5% để tránh hạ đường huyết."},
+{b:3,p:5,s:"30.1. Dịch truyền",q:"BN nam 70 kg sau mổ không biến chứng, chưa ăn uống được, sinh hiệu ổn. Lượng dịch duy trì cơ bản theo 25 mL/kg/24 giờ:",o:["1750 mL/24 giờ","700 mL/24 giờ","3500 mL/24 giờ","2500 mL/24 giờ"],a:0,e:"25 × 70 = 1750 mL/24 giờ (chưa tính dịch mất bất thường)."},
+{b:3,p:5,s:"30.2. Bù dịch hao hụt",q:"Trong 24 giờ, BN mất 600 mL qua thông dạ dày. Cách bù đúng:",o:["Bù thêm 600 mL NaCl 0,9%","Bù thêm 300 mL Glucose 5%","Bù thêm 600 mL Lactate Ringer","Không cần bù"],a:0,e:"Dịch dạ dày bù thể tích tương đương bằng NaCl 0,9%."},
+{b:3,p:5,s:"30.2. Bù dịch hao hụt",q:"Ống dẫn lưu ra 400 mL dịch trong 24 giờ (không phải máu tươi). Cách bù đúng:",o:["Bù thêm 400 mL Lactate Ringer","Bù thêm 400 mL NaCl 0,9%","Bù thêm 800 mL Glucose 5%","Truyền 2 đơn vị hồng cầu lắng"],a:0,e:"Dịch dẫn lưu bù thể tích tương đương bằng Lactate Ringer."},
+{b:3,p:3,s:"16.2. Bắc cầu kháng đông",q:"BN rung nhĩ dùng warfarin đã bắc cầu. Xét nghiệm 1 ngày trước mổ INR = 2,0. Xử trí đúng:",o:["Tiêm vitamin K 1 mg hoặc truyền huyết tương tươi đông lạnh","Mổ ngay vì INR đạt 2,0","Tăng liều warfarin","Truyền tiểu cầu"],a:0,e:"INR > 1,7 trước mổ 1 ngày → vitamin K 1 mg hoặc FFP."},
+{b:3,p:3,s:"15.1. Chẹn beta",q:"BN đang dùng bisoprolol, sáng ngày mổ nhịp tim 46 l/p. Xử trí theo bài giảng:",o:["Ngưng hoặc giảm 1/2 liều chẹn beta","Tăng liều để đạt bảo vệ tim tối đa","Đổi sang propranolol","Giữ nguyên liều, không cần chú ý"],a:0,e:"Mục tiêu 65–70 l/p; < 50 l/p → ngưng hoặc giảm nửa liều."},
+{b:3,p:2,s:"12.2. Phân tầng DVT",q:"Nam 65 tuổi mổ cắt đại tràng do ung thư. Biện pháp dự phòng DVT phù hợp:",o:["LMWH kết hợp ép chân bằng bơm hơi / vớ áp lực","Chỉ cần vận động sớm","Aspirin đơn thuần","Không cần dự phòng"],a:0,e:"> 60 tuổi, mổ lớn, bệnh ác tính → nguy cơ CAO → LMWH + phương pháp cơ học."},
+{b:3,p:2,s:"12.2. Phân tầng DVT",q:"Nữ 30 tuổi mổ cắt u bã đậu, thời gian mổ 20 phút. Biện pháp dự phòng DVT:",o:["Vận động sớm sau mổ","LMWH kèm warfarin","Heparin 5000 U mỗi 8 giờ","Đặt lưới lọc tĩnh mạch chủ"],a:0,e:"< 40 tuổi, mổ < 30 phút → nguy cơ THẤP → vận động sớm."},
+{b:3,p:2,s:"12.2. Phân tầng DVT",q:"BN 70 tuổi thay khớp háng toàn phần. Biện pháp dự phòng DVT:",o:["LMWH và/hoặc warfarin (INR 2–3) kết hợp ép chân","Chỉ vận động sớm","Heparin liều thấp đơn thuần","Không cần vì đã mổ xong"],a:0,e:"Phẫu thuật chỉnh hình → nguy cơ RẤT CAO."},
+{b:3,p:2,s:"12.2. Phân tầng DVT",q:"Nam 50 tuổi mổ thoát vị thành bụng lớn, không có yếu tố nguy cơ khác. Lựa chọn dự phòng DVT hợp lý:",o:["Heparin liều thấp 5000 U mỗi 8–12 giờ hoặc LMWH / ép chân bằng bơm hơi","Chỉ vận động sớm","LMWH kèm warfarin INR 2–3","Không cần dự phòng"],a:0,e:"> 40 tuổi, mổ lớn → nguy cơ TRUNG BÌNH."},
+{b:3,p:2,s:"3.3. Thể lực",q:"BN chỉ ăn, tắm, mặc quần áo được, đi bộ dưới 2 phút đã mệt. Bước tiếp theo trước mổ chương trình:",o:["Đánh giá chuyên sâu chức năng tim – phổi","Mổ ngay vì mổ chương trình","Chỉ cần làm panel xét nghiệm thường quy","Cho BN tập chạy bộ 1 tuần rồi mổ"],a:0,e:"Thể lực kém → ngưỡng chịu đựng sang chấn thấp → phải kiểm tra tim phổi chuyên sâu."},
+{b:3,p:3,s:"22.2. Dinh dưỡng",q:"BN ung thư dạ dày, albumin 1,8 g/dL, sụt 12% cân nặng, dự kiến mổ chương trình. Xử trí đúng:",o:["Hoãn mổ, nuôi ăn tĩnh mạch 7–9 ngày rồi đánh giá lại","Mổ ngay để tránh ung thư tiến triển","Truyền albumin 1 chai rồi mổ trong ngày","Cho ăn qua miệng bình thường, không cần chỉnh"],a:0,e:"Albumin < 2 g/dL hoặc sụt > 10% cân nặng → hoãn mổ, TPN 7–9 ngày. (Lưu ý: nhiều guideline dùng ngưỡng albumin < 3 g/dL.)"},
+{b:3,p:5,s:"28. Phân luồng",q:"BN vừa mổ phình động mạch chủ, còn đặt nội khí quản, HATT 85 mmHg. Phân luồng:",o:["Hồi sức tích cực (ICU)","Phòng hồi tỉnh (PACU)","Về thẳng phòng bệnh","Cho xuất viện trong ngày"],a:0,e:"Chỉ cần ≥ 1 tiêu chuẩn: còn NKQ, HATT < 90, mổ lớn (ở đây đủ cả 3)."},
+{b:3,p:5,s:"31.3. Tiến độ ăn",q:"Ngày N2 sau mổ cắt ruột, BN có nhu động ruột, cảm thấy đói nhưng chưa trung tiện. Chế độ ăn:",o:["Cho uống dịch lỏng, tránh chất sinh hơi, nhiều mỡ","Ăn cơm bình thường","Nhịn ăn hoàn toàn đến khi đi tiêu","Cho uống sữa và nước ngọt có gas"],a:0,e:"Có nhu động → dịch lỏng; có trung tiện → ăn đặc dần."},
+{b:3,p:3,s:"18.2. Cường giáp",q:"BN cường giáp đang dùng thuốc kháng giáp và propranolol, mổ chương trình sáng nay. Xử trí thuốc:",o:["Uống liều cuối thuốc kháng giáp và propranolol sáng ngày mổ","Ngưng cả hai thuốc từ 1 tuần trước","Chỉ ngưng propranolol","Chuyển sang L-thyroxine"],a:0,e:"Cường giáp: dùng liều cuối kháng giáp + propranolol sáng ngày mổ."},
+{b:3,p:2,s:"6.1. Nguy cơ tim mạch",q:"BN nhồi máu cơ tim cách đây 3 tuần, nay vào mổ thoát vị bẹn chương trình. Xử trí:",o:["Hoãn mổ, điều trị nội khoa ổn định tim mạch trước","Mổ ngay dưới gây tê tủy sống","Mổ ngay vì là phẫu thuật nhỏ","Chỉ cần làm thêm ECG rồi mổ"],a:0,e:"NMCT < 1 tháng là yếu tố nguy cơ CAO → hoãn mổ chương trình."},
+{b:3,p:2,s:"10. Đột quỵ",q:"BN tăng huyết áp, khám nghe thấy tiếng thổi động mạch cảnh trước mổ chương trình. Cận lâm sàng cần chỉ định:",o:["Siêu âm Doppler động mạch cảnh","CT sọ não không cản quang","Điện não đồ","Chọc dịch não tủy"],a:0,e:"Tiếng thổi ĐM cảnh hoặc TIA → Doppler ĐM cảnh."},
+{b:3,p:5,s:"32.8. Bậc thang giảm đau",q:"BN sau mở ngực đau dữ dội. Lựa chọn giảm đau theo bậc thang:",o:["Bậc 3: opioid mạnh ± acetaminophen/NSAID ± tê vùng","Bậc 1: acetaminophen đơn thuần","Không dùng giảm đau để theo dõi biến chứng","Chỉ dùng diazepam"],a:0,e:"Đau nặng → opioid mạnh, phối hợp đa mô thức; mổ ngực là vị trí đau nhiều nhất."},
+
+// ================= BẬC 4 – PHÂN TÍCH =================
+{b:4,p:3,s:"20. Bảng xanh – vàng – đỏ",q:"BN đang dùng: bisoprolol, amlodipine, omeprazole, furosemide, metformin. Nhóm thuốc nào được UỐNG sáng ngày mổ?",o:["Bisoprolol, amlodipine, omeprazole","Furosemide, metformin, omeprazole","Bisoprolol, furosemide, metformin","Cả 5 thuốc"],a:0,e:"Xanh: chẹn beta, CCB, PPI. Đỏ: lợi tiểu (ngưng từ ngày trước), thuốc viên hạ đường huyết (ngưng ngày mổ)."},
+{b:4,p:3,s:"20. Bảng xanh – vàng – đỏ",q:"Trong các thuốc sau, thuốc nào thuộc nhóm cần ĐIỀU CHỈNH/CHUYỂN ĐỔI (nhóm vàng) chứ không chỉ đơn thuần tiếp tục hay ngưng?",o:["Prednisolone dùng kéo dài","L-thyroxine","Methyldopa","Omeprazole"],a:0,e:"Corticoid → bù liều stress TM. L-thyroxine và PPI: tiếp tục. Methyldopa: ngưng."},
+{b:4,p:5,s:"28. Phân luồng",q:"BN ở PACU: tỉnh hoàn toàn, tự giữ tư thế an toàn, HATT 95 mmHg, dẫn lưu không ra máu. Yếu tố nào ngăn BN chuyển về phòng bệnh?",o:["HATT chưa đạt ≥ 100 mmHg","Dẫn lưu không ra máu","BN tỉnh hoàn toàn","BN tự giữ được tư thế"],a:0,e:"Về phòng bệnh cần HATT ≥ 100 mmHg (PACU chỉ cần ≥ 90)."},
+{b:4,p:5,s:"28.4. Cai máy thở",q:"Bác sĩ cai máy thở theo các bước sau. Bước nào KHÔNG đúng với bài giảng?",o:["Giữ FiO2 ở 1,0 suốt quá trình cai máy","Giảm dần IMV xuống 4 nhịp/phút","SpO2 > 95%, không khó thở → chuyển sang chế độ hỗ trợ","Hút đàm nhớt thường xuyên"],a:0,e:"Khi SpO2 > 95% phải giảm FiO2 xuống 0,4."},
+{b:4,p:1,s:"2.2. Huyết động",q:"Phân biệt cơ chế làm giảm cung lượng tim giữa mê toàn thân và tê tủy sống:",o:["Mê toàn thân: ức chế trực tiếp cơ tim; tê tủy sống: ức chế giao cảm, giãn cả động – tĩnh mạch","Mê toàn thân: giãn động mạch; tê tủy sống: ức chế cơ tim","Cả hai đều chỉ do mất máu","Mê toàn thân làm tăng cung lượng tim"],a:0,e:"Hai cơ chế khác nhau nên cách xử trí khác nhau (bù dịch/thuốc vận mạch so với theo dõi co bóp)."},
+{b:4,p:2,s:"7. Hô hấp",q:"Hồ sơ BN mổ bụng trên: 62 tuổi, hút thuốc 30 gói-năm, FEV1 0,9 L, X-quang phổi bình thường, K+ 4,0. Yếu tố nào cho thấy nguy cơ hô hấp RẤT CAO?",o:["FEV1 0,9 L","X-quang phổi bình thường","K+ 4,0 mmol/L","Tuổi 62"],a:0,e:"FEV1 < 1 L = nguy cơ rất cao. X-quang ngực ít giá trị dự đoán; K+ bình thường không làm nặng."},
+{b:4,p:6,s:"36. Cân bằng chu phẫu",q:"BN suy thận mạn có bệnh mạch vành đang dùng chẹn beta. Sau mổ K+ 6,2 mmol/L. Mâu thuẫn điều trị cần phân tích là:",o:["Chẹn beta bảo vệ cơ tim nhưng làm tăng kali máu ở BN suy thận","Chẹn beta gây suy thận cấp","Chẹn beta làm hạ kali","Chẹn beta làm tăng nhu cầu dịch"],a:0,e:"Đây là cặp cân bằng 'tim mạch vs thận mạn' trong bài giảng."},
+{b:4,p:5,s:"32.5. Meperidine",q:"BN có tiền căn động kinh, đang dùng phenytoin, đau nặng sau mổ. Opioid nào trong bài giảng cần TRÁNH?",o:["Meperidine (pethidine)","Hydromorphone","Fentanyl","Tramadol thận trọng"],a:0,e:"Normeperidine gây co giật; tiền căn động kinh là chống chỉ định của meperidine."},
+{b:4,p:5,s:"32.7. NSAID vs acetaminophen",q:"BN đau vừa sau mổ, có tiền căn loét dạ dày – tá tràng và đang dùng heparin dự phòng. Thuốc giảm đau non-opioid phù hợp hơn:",o:["Acetaminophen","Ketorolac","Diclofenac","Ibuprofen liều cao"],a:0,e:"NSAID ức chế tiểu cầu, tăng chảy máu và loét; acetaminophen không ảnh hưởng tiểu cầu."},
+{b:4,p:5,s:"27. Y lệnh hậu phẫu",q:"Y lệnh hậu phẫu ghi: chẩn đoán, phương pháp mổ, theo dõi sinh hiệu – SpO2, giảm đau – kháng sinh – dịch truyền, tư thế – chăm sóc dẫn lưu. Thành tố nào còn THIẾU?",o:["Tình trạng BN: tiền sử nội khoa, dị ứng, thuốc kháng đông đang dùng","Chẩn đoán","Thông số theo dõi","Chăm sóc đặc biệt"],a:0,e:"6 thành tố: chẩn đoán, phương pháp, tình trạng BN, thông số theo dõi, điều trị, chăm sóc đặc biệt."},
+{b:4,p:2,s:"6. Tim mạch",q:"Kết hợp yếu tố BN và yếu tố phẫu thuật, trường hợp nào có nguy cơ tim mạch chu phẫu CAO NHẤT?",o:["Suy tim mất bù, mổ cấp cứu động mạch chủ","Lớn tuổi, mổ thay thủy tinh thể","Suy tim còn bù, mổ chỉnh hình không biến chứng","NMCT cách 6 tháng, mổ vú"],a:0,e:"Suy tim mất bù (BN nguy cơ cao) + mổ cấp cứu/mạch máu (PT nguy cơ cao > 5%)."},
+{b:4,p:3,s:"21.2. Gan",q:"BN xơ gan Child-Pugh B cần mổ. Phương án thuốc nào hợp lý NHẤT theo bài giảng?",o:["Isoflurane + atracurium + fentanyl; giảm 50% liều benzodiazepine","Halothane + pancuronium + morphine liều chuẩn","Enflurane + succinylcholine + benzodiazepine liều chuẩn","Halothane + atracurium + morphine liều gấp đôi"],a:0,e:"Isoflurane tăng máu gan, atracurium thải Hofmann, fentanyl ưu tiên; morphine/benzo giảm 50%."},
+
+// ================= BẬC 5 – ĐÁNH GIÁ =================
+{b:5,p:4,s:"24.4. Vệ sinh vùng mổ",q:"Điều dưỡng cạo sạch lông vùng bụng tối hôm trước cho BN mổ thoát vị. Nhận định nào đúng?",o:["Không đúng: phải cắt lông, cạo gây trầy xước làm tăng nhiễm khuẩn vết mổ","Đúng, cạo sạch giúp vô khuẩn tốt hơn","Đúng nếu cạo bằng dao mới","Không quan trọng, lông không ảnh hưởng nhiễm khuẩn"],a:0,e:"Nguyên tắc: CẮT lông, KHÔNG CẠO."},
+{b:5,p:3,s:"21.3. Thận",q:"Bác sĩ nội trú truyền Lactate Ringer để đưa BN suy thận mạn về đẳng tích trước mổ chương trình. Đánh giá:",o:["Không phù hợp: nên dùng NaCl 0,9%, tránh Lactate Ringer vì chứa kali","Phù hợp vì Lactate Ringer sinh lý nhất","Phù hợp nếu truyền nhanh","Phù hợp nếu kèm lợi tiểu"],a:0,e:"Suy thận: tránh Lactate Ringer (K+, rối loạn toan kiềm); dùng NaCl 0,9%."},
+{b:5,p:4,s:"23.1. Giao tiếp",q:"BN rất lo âu, tâm lý yếu. Bác sĩ định giải thích chi tiết toàn bộ nguy cơ tử vong và biến chứng nặng trực tiếp cho BN. Theo bài giảng, cách làm phù hợp hơn:",o:["Nói tránh/bớt với BN, trao đổi chi tiết rủi ro nặng với thân nhân; vẫn giải thích phương pháp và tiên lượng","Giấu hoàn toàn mọi thông tin cả với gia đình","Chỉ nói về nguy cơ tử vong, không nói phương pháp mổ","Không cần giải thích vì BN đã đồng ý mổ"],a:0,e:"Theo bài giảng: tránh thông báo dồn dập biến chứng nặng cho BN tâm lý yếu, trao đổi riêng với người nhà. (Cam kết đồng thuận vẫn cần thông tin đầy đủ – phần BS.)"},
+{b:5,p:3,s:"21.1. Hô hấp trong mổ",q:"BN COPD nặng cần mổ thoát vị bẹn. So sánh hai phương án vô cảm, đánh giá nào đúng theo bài giảng?",o:["Ưu tiên tê tủy sống vì mê toàn thân tăng nguy cơ phụ thuộc máy thở","Ưu tiên mê toàn thân với pancuronium","Hai phương án như nhau","Ưu tiên mê toàn thân vì kiểm soát đường thở tốt hơn"],a:0,e:"Trong mổ: tê tủy sống > mê toàn thân; nếu cần giãn cơ chọn vecuronium, tránh pancuronium."},
+{b:5,p:2,s:"8.2. Gan",q:"BN xơ gan Child-Pugh C, sỏi túi mật không triệu chứng, được đề nghị cắt túi mật chương trình. Đánh giá:",o:["Không nên mổ: Child C tử vong > 80%, là chống chỉ định mổ chương trình","Nên mổ ngay để tránh viêm túi mật về sau","Nên mổ nếu dùng halothane","Nên mổ vì là phẫu thuật nội soi"],a:0,e:"Child-Pugh C là chống chỉ định mổ chương trình."},
+{b:5,p:6,s:"36. Cân bằng chu phẫu",q:"BN xơ gan sau mổ bụng trên, bác sĩ cho opioid liều cao để BN thở sâu chống xẹp phổi. Đánh giá phù hợp nhất:",o:["Đúng mục tiêu hô hấp nhưng dễ gây hôn mê gan; cần giảm liều, cân bằng hai mặt","Hoàn toàn đúng, càng nhiều giảm đau càng tốt","Sai, BN xơ gan không được giảm đau","Đúng, opioid bảo vệ gan"],a:0,e:"Cặp cân bằng 'hô hấp vs gan mật' trong bài giảng."},
+{b:5,p:6,s:"36. Cân bằng chu phẫu",q:"BN suy thận mạn tụt huyết áp sau tê tủy sống, được bù dịch rất nhiều. Nguy cơ chính cần cảnh giác:",o:["Phù phổi cấp do quá tải dịch","Hạ kali máu","Tăng đường huyết","Hạ thân nhiệt"],a:0,e:"Cặp cân bằng 'huyết động vs quá tải dịch'."},
+{b:5,p:3,s:"18.1. Corticoid",q:"BN dùng prednisolone 2 năm vì lupus. Bác sĩ ngưng hẳn thuốc từ hôm trước mổ lớn để tránh chậm lành vết mổ. Đánh giá:",o:["Sai: nguy cơ suy thượng thận cấp; cần hydrocortisone 100 mg × 3 lần/ngày rồi giảm dần","Đúng vì corticoid gây chậm lành vết mổ","Đúng nếu bù đủ dịch","Sai: phải tăng liều prednisolone uống gấp 10 lần"],a:0,e:"Không dừng đột ngột; bù liều stress TM, giảm nhanh 50%/ngày sau mổ."},
+
+// ================= BẬC 6 – SÁNG TẠO (xây dựng kế hoạch) =================
+{b:6,p:3,s:"17. Đái tháo đường",q:"Xây dựng kế hoạch quản lý đường huyết cho BN ĐTĐ týp 2 dùng metformin + glibenclamide, mổ cắt đại tràng chương trình. Kế hoạch đầy đủ, hợp lý NHẤT:",o:["Ngưng thuốc viên ngày mổ; truyền insulin thường TM (liều = glucose/150); thêm Glucose 5% khi < 150 mg/dL; khám cơ quan đích trước mổ","Tiếp tục cả hai thuốc viên sáng ngày mổ, không cần theo dõi","Ngưng thuốc 1 tuần, không dùng insulin để tránh hạ đường huyết","Tiêm insulin tác dụng kéo dài liều gấp đôi sáng ngày mổ"],a:0,e:"Tổng hợp mục 11 và 17: ngưng thuốc viên, chuyển insulin TM theo công thức, phòng hạ đường huyết, tầm soát cơ quan đích."},
+{b:6,p:3,s:"16.2. Bắc cầu kháng đông",q:"Sắp xếp đúng phác đồ bắc cầu cho BN dùng warfarin cần mổ chương trình:",o:["Ngưng warfarin 4–5 ngày → INR < 2 bắt đầu heparin/LMWH → ngày −1 kiểm tra INR (> 1,7 thì vitamin K) → ngưng heparin 6 giờ trước mổ → heparin lại sau 12 giờ → warfarin lại sau 2–3 ngày","Ngưng warfarin 1 ngày → mổ → warfarin lại ngay tối ngày mổ","Ngưng heparin 4–5 ngày → bắt đầu warfarin → mổ khi INR > 3","Ngưng warfarin 2 tuần → không bắc cầu → warfarin lại sau 1 tháng"],a:0,e:"Đúng trình tự mục 16.2 của bài giảng."},
+{b:6,p:1,s:"2.4 + 21.1 + 31.2. Hô hấp",q:"Lập kế hoạch dự phòng biến chứng hô hấp cho BN hút thuốc, sắp mổ cắt dạ dày chương trình. Kế hoạch đầy đủ NHẤT:",o:["Ngưng thuốc lá ≥ 8 tuần, VLTL hô hấp, giãn phế quản → mổ ngắn, ưu tiên nội soi → sau mổ giảm đau đủ, Fowler, thở sâu – ho khạc, ngồi dậy N0, đi lại N1","Ngưng thuốc lá 1 ngày → mổ mở → bất động tại giường 3 ngày","Không ngưng thuốc lá → dùng pancuronium → hạn chế giảm đau để tránh ức chế hô hấp","Chỉ cần kháng sinh phổ rộng sau mổ"],a:0,e:"Chiến lược hô hấp 3 giai đoạn (trước – trong – sau mổ) theo bài giảng."},
+{b:6,p:2,s:"10 + 6. Thần kinh – tim mạch",q:"BN 68 tuổi tăng huyết áp, có cơn TIA, Doppler hẹp ĐM cảnh trong 80%, cần mổ thay khớp háng chương trình. Kế hoạch đúng:",o:["Hoãn thay khớp; lột nội mạc ĐM cảnh trước; khi tuần hoàn não ổn mới mổ chính, kèm dự phòng DVT nguy cơ rất cao","Mổ thay khớp trước, xử trí ĐM cảnh sau","Mổ thay khớp ngay dưới gây tê tủy sống, không cần xử trí ĐM cảnh","Chỉ dùng aspirin liên tục và mổ ngay"],a:0,e:"Hẹp > 70% → can thiệp ĐM cảnh trước; thay khớp là nhóm DVT rất cao."},
+{b:6,p:3,s:"21.4. Thận – cấp cứu",q:"BN suy thận mạn chưa lọc máu, vào viện thủng ổ loét dạ dày cần mổ cấp cứu. Kế hoạch chu phẫu phù hợp NHẤT:",o:["Mổ cấp cứu; monitor ECG liên tục; tránh LR, NSAID, meperidine; dùng Troponin T nếu nghi NMCT; lọc máu ngay sau mổ nếu cần","Trì hoãn mổ để lọc máu 3 buổi","Dùng Lactate Ringer bù dịch nhanh và ketorolac giảm đau","Dùng CK-MB theo dõi tim, meperidine giảm đau"],a:0,e:"Tổng hợp mục 9, 21.4 và nhóm thuốc độc thận."},
+{b:6,p:5,s:"32. Giảm đau đa mô thức",q:"Xây dựng phác đồ giảm đau cho BN COPD, chức năng gan – thận bình thường, sau mổ mở bụng trên rốn. Phác đồ hợp lý NHẤT theo bài giảng:",o:["Tê ngoài màng cứng kết hợp acetaminophen ± NSAID/COX-2; ưu tiên tramadol khi cần thêm opioid, theo dõi hô hấp","Morphine liều cao đơn thuần","Không giảm đau để tránh ức chế hô hấp","Meperidine kéo dài 5 ngày"],a:0,e:"Đa mô thức giảm liều opioid; giảm đau đủ để cơ hoành hoạt động. Lưu ý: bài giảng ghi tramadol không ức chế hô hấp, thực tế vẫn có thể ức chế nhẹ nên vẫn cần theo dõi."}
+];
+
+const BLOOM = {
+  1:{n:"Nhớ",d:"nhắc lại con số, định nghĩa, danh sách"},
+  2:{n:"Hiểu",d:"giải thích cơ chế, lý do"},
+  3:{n:"Vận dụng",d:"tính toán, xử trí tình huống đơn"},
+  4:{n:"Phân tích",d:"tách các dữ kiện, tìm yếu tố quyết định"},
+  5:{n:"Đánh giá",d:"nhận định một quyết định đúng hay sai"},
+  6:{n:"Sáng tạo",d:"xây dựng kế hoạch tổng hợp"}
+};
+const PARTS = {1:"Phần 1. Đại cương và nền tảng",2:"Phần 2. Đánh giá trước mổ",3:"Phần 3. Tối ưu hóa và quản lý thuốc",4:"Phần 4. Chuẩn bị BN trước mổ",5:"Phần 5. Chăm sóc sau mổ",6:"Phần 6. Tổng hợp"};
+const LET = ["A","B","C","D","E"];
+
+QUESTIONS.forEach((q,i)=>{q.id=i;});
+let activeBloom = new Set([1,2,3,4,5,6]);
+let part = "all";
+let answers = {};      // id -> chosen original index
+let optOrder = {};     // id -> array of original indices
+let qOrder = QUESTIONS.map(q=>q.id);
+let wrongMode = null;  // Set of ids or null
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newOptOrder(){QUESTIONS.forEach(q=>{optOrder[q.id]=shuffle(q.o.map((_,i)=>i));});}
+newOptOrder();
+
+function visible(){
+  return qOrder.map(id=>QUESTIONS[id]).filter(q=>activeBloom.has(q.b)&&(part==="all"||q.p==+part)&&(!wrongMode||wrongMode.has(q.id)));
+}
+
+function buildChips(){
+  const box=document.getElementById("bloomChips");box.innerHTML="";
+  const all=document.createElement("button");all.className="chip";all.textContent="Tất cả";
+  all.setAttribute("aria-pressed",activeBloom.size===6);
+  all.onclick=()=>{activeBloom=new Set([1,2,3,4,5,6]);buildChips();render();};
+  box.appendChild(all);
+  for(const b of [1,2,3,4,5,6]){
+    const n=QUESTIONS.filter(q=>q.b===b).length;
+    const c=document.createElement("button");c.className="chip";
+    c.innerHTML=`<span class="dot" style="background:var(--b${b})"></span>${b}. ${BLOOM[b].n} <span class="n">${n}</span>`;
+    c.setAttribute("aria-pressed",activeBloom.has(b)&&activeBloom.size<6);
+    c.onclick=()=>{
+      if(activeBloom.size===6){activeBloom=new Set([b]);}
+      else if(activeBloom.has(b)){activeBloom.delete(b);if(!activeBloom.size)activeBloom=new Set([1,2,3,4,5,6]);}
+      else activeBloom.add(b);
+      buildChips();render();
+    };
+    box.appendChild(c);
+  }
+  document.getElementById("bloomLegend").innerHTML=[1,2,3,4,5,6].map(b=>`<b>${BLOOM[b].n}</b>: ${BLOOM[b].d}`).join(" · ");
+}
+
+function buildParts(){
+  const s=document.getElementById("partSel");
+  s.innerHTML=`<option value="all">Tất cả các phần (${QUESTIONS.length} câu)</option>`+
+    Object.entries(PARTS).map(([k,v])=>`<option value="${k}">${v} (${QUESTIONS.filter(q=>q.p==k).length})</option>`).join("");
+  s.onchange=()=>{part=s.value;render();};
+}
+
+function render(){
+  const list=document.getElementById("list");list.innerHTML="";
+  const vis=visible();
+  const reveal=document.getElementById("reveal").checked;
+  if(!vis.length){list.innerHTML=`<div class="empty">Không có câu nào khớp bộ lọc.</div>`;}
+  vis.forEach((q,idx)=>{
+    const card=document.createElement("article");card.className="q";
+    const chosen=answers[q.id];const done=chosen!==undefined||reveal;
+    card.innerHTML=`<div class="meta"><span class="num">Câu ${idx+1}</span>
+      <span class="tag bl" style="background:var(--b${q.b})">${q.b}. ${BLOOM[q.b].n}</span>
+      <span class="tag">${PARTS[q.p].split(".")[0]}</span><span class="tag">${q.s}</span></div>
+      <p class="qt"></p><div class="opts"></div>`;
+    card.querySelector(".qt").textContent=q.q;
+    const opts=card.querySelector(".opts");
+    optOrder[q.id].forEach((oi,pos)=>{
+      const b=document.createElement("button");b.className="opt";
+      b.innerHTML=`<span class="k">${LET[pos]}</span><span></span>`;
+      b.lastChild.textContent=q.o[oi];
+      if(done){b.disabled=true;
+        if(oi===q.a)b.classList.add("ok");
+        else if(oi===chosen)b.classList.add("bad");}
+      else b.onclick=()=>{answers[q.id]=oi;render();};
+      opts.appendChild(b);
+    });
+    if(done){
+      const e=document.createElement("div");e.className="exp";
+      const correctPos=LET[optOrder[q.id].indexOf(q.a)];
+      let head="";
+      if(chosen===undefined)head=`<strong>Đáp án ${correctPos}.</strong> `;
+      else if(chosen===q.a)head=`<strong class="okt">Chính xác.</strong> `;
+      else head=`<strong class="badt">Chưa đúng, đáp án là ${correctPos}.</strong> `;
+      e.innerHTML=head;e.appendChild(document.createTextNode(q.e));
+      card.appendChild(e);
+    }
+    list.appendChild(card);
+  });
+  updateStats(vis);
+  if(!document.getElementById("summary").hidden)buildSummary();
+}
+
+function updateStats(vis){
+  const done=vis.filter(q=>answers[q.id]!==undefined);
+  const right=done.filter(q=>answers[q.id]===q.a);
+  document.getElementById("sDone").textContent=`${done.length}/${vis.length}`;
+  document.getElementById("sRight").textContent=right.length;
+  document.getElementById("sPct").textContent=done.length?Math.round(right.length/done.length*100)+"%":"–";
+  document.getElementById("prog").style.width=vis.length?(done.length/vis.length*100)+"%":"0";
+}
+
+function buildSummary(){
+  const tb=document.getElementById("sumBody");tb.innerHTML="";
+  let T=0,D=0,R=0;
+  for(const b of [1,2,3,4,5,6]){
+    const qs=QUESTIONS.filter(q=>q.b===b&&(part==="all"||q.p==+part));
+    const d=qs.filter(q=>answers[q.id]!==undefined);const r=d.filter(q=>answers[q.id]===q.a);
+    T+=qs.length;D+=d.length;R+=r.length;
+    tb.insertAdjacentHTML("beforeend",`<tr><td><span class="tag bl" style="background:var(--b${b})">${b}. ${BLOOM[b].n}</span></td><td class="r">${qs.length}</td><td class="r">${d.length}</td><td class="r">${r.length}</td><td class="r">${d.length?Math.round(r.length/d.length*100)+"%":"–"}</td></tr>`);
+  }
+  tb.insertAdjacentHTML("beforeend",`<tr><th>Tổng</th><th class="r">${T}</th><th class="r">${D}</th><th class="r">${R}</th><th class="r">${D?Math.round(R/D*100)+"%":"–"}</th></tr>`);
+}
+
+document.getElementById("restart").onclick=()=>{answers={};wrongMode=null;newOptOrder();
+  qOrder=document.getElementById("shuffleQ").checked?shuffle(QUESTIONS.map(q=>q.id)):QUESTIONS.map(q=>q.id);
+  document.getElementById("wrongOnly").textContent="Chỉ làm lại câu sai";render();window.scrollTo({top:0,behavior:"smooth"});};
+document.getElementById("wrongOnly").onclick=(ev)=>{
+  if(wrongMode){wrongMode=null;ev.target.textContent="Chỉ làm lại câu sai";render();return;}
+  const wrong=QUESTIONS.filter(q=>answers[q.id]!==undefined&&answers[q.id]!==q.a).map(q=>q.id);
+  if(!wrong.length){alertBox("Chưa có câu sai nào để làm lại.");return;}
+  wrongMode=new Set(wrong);wrong.forEach(id=>{delete answers[id];});newOptOrderFor(wrong);
+  ev.target.textContent="Hiện lại tất cả câu";render();window.scrollTo({top:0,behavior:"smooth"});
+};
+function newOptOrderFor(ids){ids.forEach(id=>{optOrder[id]=shuffle(QUESTIONS[id].o.map((_,i)=>i));});}
+function alertBox(msg){const s=document.getElementById("sDone");const old=s.textContent;s.textContent=msg;s.style.fontSize="0.95rem";setTimeout(()=>{s.style.fontSize="";updateStats(visible());},1800);}
+document.getElementById("showSummary").onclick=()=>{const s=document.getElementById("summary");s.hidden=!s.hidden;if(!s.hidden){buildSummary();s.scrollIntoView({behavior:"smooth"});}};
+document.getElementById("shuffleQ").onchange=(e)=>{qOrder=e.target.checked?shuffle(QUESTIONS.map(q=>q.id)):QUESTIONS.map(q=>q.id);render();};
+document.getElementById("reveal").onchange=render;
+document.getElementById("theme").onclick=()=>{const r=document.documentElement;const cur=r.getAttribute("data-theme");
+  const dark=cur?cur==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.setAttribute("data-theme",dark?"light":"dark");};
+
+buildChips();buildParts();render();
+</script>
+</body>
+</html>
